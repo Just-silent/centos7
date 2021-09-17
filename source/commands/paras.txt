@@ -1,0 +1,14 @@
+start
+stop
+restart
+status
+enable
+disable
+remove
+groupremove
+DROP
+ACCEPT
+down
+offi
+del
+set

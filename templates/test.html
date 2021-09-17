@@ -1,0 +1,58 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<title>利用json数据动态创建表格</title>
+<meta charset="utf-8" />
+<style>
+table{width:600px;
+border-collapse:collapse;
+text-align:center;
+}
+td,th{border:1px solid #ccc}
+</style>
+
+</head>
+<body>
+<div align="center" id="data"></div>
+<script>
+var json=[
+{"name":"王大", "salary":11000},
+{"name":"李二", "salary":13000},
+{"name":"张三", "salary":12000,}
+];
+
+//创建table
+var table=
+document.createElement("table");
+
+//创建tbody元素
+var tbody=
+document.createElement("tbody");
+//将tbody追加到table中
+table.appendChild(tbody);
+//遍历json中所有员工
+for(var i=0;i<json.length;i++){
+//创建tr
+var tr=
+document.createElement("tr");
+//遍历当前员工的每个属性
+for(var key in json[i]){
+//创建td
+var td=
+document.createElement("td");
+//设置td的内容为当前员工的当前属性值
+td.innerHTML=json[i][key];
+//将td追加到tr
+tr.appendChild(td);
+}//(遍历结束)
+//将tr追加到tbody中
+tbody.appendChild(tr);
+}
+
+//将table添加到id为data的div下
+document.getElementById("data")
+.appendChild(table);
+
+</script>
+</body>
+</html>

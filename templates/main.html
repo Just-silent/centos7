@@ -1,0 +1,145 @@
+<!--
+<html>:     文本描述网页
+<body>:     可见的页面内容
+<h1-6>:     标题
+<p>   :     段落
+<a>   :     连接
+<img> :     图像
+<br />:     换行
+<table>:    表格
+<font>:     字体颜色
+<hr />:     水平线
+-->
+
+
+<html>
+
+<body style="background-color: #faebd7">
+<h1 align="center"><font size="15", color="#b0c4de">操作命令危险等级判断</font></h1>
+
+<hr />
+
+<h2 align="center"><font size="5", color="#708090">操作命令及路径输入</font></h2>
+
+
+<form>
+  <div align="center">
+    <label for="fname">请输入操作路径:</label>
+    <input style="width:256px;height:24px" type="text" name="path" value="">
+    <br />
+  </div>
+
+  <div align="center">
+    <label style="vertical-align: middle">请输入判断命令:</label>
+    <textarea cols="34" rows="5" name="command" autocomplete="off" placeholder="rm -rf /var/log/secure-20210711"></textarea>
+  </div>
+
+  <br /><br />
+
+  <div align="center">
+  <input type="submit" value="点击评价" size="100">
+  </div>
+</form>
+
+<hr />
+
+<div align="center">
+
+</div>
+  <h2 align="center"><font size="5", color="#708090">所判断的命令</font></h2>
+  <h2 id="command" align="center"><font size="1"></font></h2>
+  <script>
+    var str = "{{result['command']}}";
+    str = str.replace('[', '').replace(']', '')
+    if (str.length!=0){
+      str = str.split(',')
+    }
+    var s;
+    var all_s = '';
+    for (index in str){
+       all_s = all_s + str[index] + '<br />'
+    }
+    console.log(all_s)
+    document.getElementById('command').innerHTML = all_s
+  </script>
+<hr />
+
+<div align="center">
+<!--<table id="text" name="result"></table>-->
+<!--  <tr>-->
+<!--    <th>危险等级</th>-->
+<!--    <th id="th">Savings</th>-->
+<!--  </tr>-->
+<!--  <script>-->
+<!--      document.getElementById("text").value="{{ result['危险等级'][0] }}"-->
+<!--  </script>-->
+  <h2 align="center"><font size="5", color="#708090">危险等级预测结果</font></h2>
+  <table class="table_result" id="table_result" width="500px"></table>
+  <script>
+    var str = "<tr bgcolor='" + "{{result['危险等级'][1]}}" + "'" + "><td>危险等级</td><td>" + "{{result['危险等级'][0][-1]}}" + "</td></tr>";
+    document.getElementById("table_result").innerHTML = str
+  </script>
+</div>
+
+<hr />
+
+<style>
+table{width:600px;
+border-collapse:collapse;
+text-align:center;
+}
+td,th{border:1px solid #ccc}
+</style>
+
+<div align="center" id="data" style="color: #708090; font-size: x-large">判断条件</div>
+  <script>
+  var json={{result|tojson}};
+  delete json['危险等级'];
+  delete json['command'];
+  //创建table
+  var table=
+  document.createElement("table");
+  //创建tbody元素
+  var tbody=
+  document.createElement("tbody");
+  //将tbody追加到table中
+  table.appendChild(tbody);
+  //遍历json中所有员工
+  keys = Object.keys(json)
+  // console.log(keys)
+  var key
+  for (index in keys){
+      console.log(keys[index])
+      //创建tr
+      var tr=
+      document.createElement("tr");
+      //遍历当前员工的每个属性
+      //创建td
+      var td=
+      document.createElement("td");
+      //key
+      td.innerHTML=keys[index];
+      //将td追加到tr
+      tr.appendChild(td);
+      tr.bgColor=json[keys[index]][1];
+      //将tr追加到tbody中
+      tbody.appendChild(tr);
+      //创建td
+      var td=
+      document.createElement("td");
+      //value
+      td.innerHTML=json[keys[index]][0];
+      //将td追加到tr
+      tr.appendChild(td);
+      //将tr追加到tbody中
+      tbody.appendChild(tr);
+  }
+
+  //将table添加到id为data的div下
+  document.getElementById("data")
+  .appendChild(table);
+
+  </script>
+
+</body>
+</html>
